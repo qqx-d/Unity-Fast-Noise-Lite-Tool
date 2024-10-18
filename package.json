@@ -1,0 +1,12 @@
+{
+    "name": "com.unity.fast_noise_lite_tool",
+    "version": "1.0.0",
+    "displayName": "Unity Fast Noise Lite Tool",
+    "description": "Simple procedural generation tool using FastNoiseLite",
+    "unity": "2022.3",
+    "author": {
+      "name": "Dima Lebedev",
+      "email": "m.dimalebedev@gmail.com",
+      "url": "https://github.com/qqx-ds"
+    }
+}
