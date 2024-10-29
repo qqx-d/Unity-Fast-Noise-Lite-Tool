@@ -1,51 +1,41 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class NoiseInterface 
 {
-    [Serializable]
-    public class General 
+    [Serializable] public class General
     {
-        public bool Use;
-
-        public FastNoiseLite.NoiseType NoiseType;
+        public FastNoiseLite.NoiseType NoiseType; // Убрал private set
         public float Frequency;
     }
-
-    [Serializable]
-    public class Fractal
+    [Serializable] public class Fractal
     {
-        public bool Use;
-
         public FastNoiseLite.FractalType FractalType;
         public int Octaves;
-        public float Lacuranity;
+        public float Lacunarity;
         public float Gain;
         public float WeightedStrength;
     }
-
-    [Serializable]
-    public class Callcular 
+    [Serializable] public class Callcular
     {
-        public bool Use;
-
         public FastNoiseLite.CellularDistanceFunction CellularDistanceFunction;
         public FastNoiseLite.CellularReturnType CellularReturnType;
         public float Jitter;
     }
-
-    [Serializable]
-    public class DomainWarp 
+    [Serializable] public class DomainWarp
     {
-        public bool Use;
-
         public FastNoiseLite.DomainWarpType DomainWarpType;
         public float Amplitude;
         public float Frequency;
     }
+    
+    [HideInInspector] public bool useFractalSettings = false;
+    [HideInInspector] public bool useCallcularSettings = false;
+    [HideInInspector] public bool useDomainWarpSettings = false;
 
-    public General GeneralSettings;
-    public Fractal FractalSettings;
-    public Callcular CallcularSettings;
-    public DomainWarp DomainWarpSettings;
+    [HideInInspector] public General generalSettings = new General(); // Инициализация
+    [HideInInspector] public Fractal fractalSettings = new Fractal();
+    [HideInInspector] public Callcular callcularSettings = new Callcular();
+    [HideInInspector] public DomainWarp domainWarpSettings = new DomainWarp();
 }

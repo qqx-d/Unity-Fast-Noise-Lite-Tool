@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Noise Type", menuName = "Fast Noise Lite/New Noise")]
-public class NoiseType : ScriptableObject 
+public class NoiseType : ScriptableObject
 {
-    public NoiseInterface Noise;
+    
+    public NoiseInterface noise = new NoiseInterface();
+    
 }

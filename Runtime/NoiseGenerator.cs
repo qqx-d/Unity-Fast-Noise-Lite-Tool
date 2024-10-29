@@ -2,46 +2,43 @@ using UnityEngine;
 
 public class NoiseGenerator
 {
-
-    private int _seed;
+    
+    private readonly int _seed;
     private Vector3Int _chunksSize;
 
     public NoiseGenerator(int worldSeed, Vector3Int chunkSize)
     {
-        this._seed = worldSeed;
-        this._chunksSize = chunkSize;
+        _seed = worldSeed;
+        _chunksSize = chunkSize;
     }
 
     private FastNoiseLite GetNoiseSettings(NoiseType biomeType)
     {
         FastNoiseLite fastNoiseLite = new FastNoiseLite(_seed);
 
-        if (biomeType.Noise.GeneralSettings.Use)
+        fastNoiseLite.SetNoiseType(biomeType.noise.generalSettings.NoiseType);
+        fastNoiseLite.SetFrequency(biomeType.noise.generalSettings.Frequency);
+
+        if (biomeType.noise.useFractalSettings)
         {
-            fastNoiseLite.SetNoiseType(biomeType.Noise.GeneralSettings.NoiseType);
-            fastNoiseLite.SetFrequency(biomeType.Noise.GeneralSettings.Frequency);
+            fastNoiseLite.SetFractalType(biomeType.noise.fractalSettings.FractalType);
+            fastNoiseLite.SetFractalOctaves(biomeType.noise.fractalSettings.Octaves);
+            fastNoiseLite.SetFractalLacunarity(biomeType.noise.fractalSettings.Lacunarity);
+            fastNoiseLite.SetFractalGain(biomeType.noise.fractalSettings.Gain);
+            fastNoiseLite.SetFractalWeightedStrength(biomeType.noise.fractalSettings.WeightedStrength);
         }
 
-        if (biomeType.Noise.FractalSettings.Use)
+        if (biomeType.noise.useCallcularSettings)
         {
-            fastNoiseLite.SetFractalType(biomeType.Noise.FractalSettings.FractalType);
-            fastNoiseLite.SetFractalOctaves(biomeType.Noise.FractalSettings.Octaves);
-            fastNoiseLite.SetFractalLacunarity(biomeType.Noise.FractalSettings.Lacuranity);
-            fastNoiseLite.SetFractalGain(biomeType.Noise.FractalSettings.Gain);
-            fastNoiseLite.SetFractalWeightedStrength(biomeType.Noise.FractalSettings.WeightedStrength);
+            fastNoiseLite.SetCellularDistanceFunction(biomeType.noise.callcularSettings.CellularDistanceFunction);
+            fastNoiseLite.SetCellularReturnType(biomeType.noise.callcularSettings.CellularReturnType);
+            fastNoiseLite.SetCellularJitter(biomeType.noise.callcularSettings.Jitter);
         }
 
-        if (biomeType.Noise.CallcularSettings.Use)
+        if (biomeType.noise.useDomainWarpSettings)
         {
-            fastNoiseLite.SetCellularDistanceFunction(biomeType.Noise.CallcularSettings.CellularDistanceFunction);
-            fastNoiseLite.SetCellularReturnType(biomeType.Noise.CallcularSettings.CellularReturnType);
-            fastNoiseLite.SetCellularJitter(biomeType.Noise.CallcularSettings.Jitter);
-        }
-
-        if (biomeType.Noise.DomainWarpSettings.Use)
-        {
-            fastNoiseLite.SetDomainWarpType(biomeType.Noise.DomainWarpSettings.DomainWarpType);
-            fastNoiseLite.SetDomainWarpAmp(biomeType.Noise.DomainWarpSettings.Amplitude);
+            fastNoiseLite.SetDomainWarpType(biomeType.noise.domainWarpSettings.DomainWarpType);
+            fastNoiseLite.SetDomainWarpAmp(biomeType.noise.domainWarpSettings.Amplitude);
         }
 
         return fastNoiseLite;
@@ -57,8 +54,8 @@ public class NoiseGenerator
         {
             for (int y = 0; y < _chunksSize.y; y++)
             {
-                float scaledX = (position.x * _chunksSize.x + x) + _seed;
-                float scaledY = (position.y * _chunksSize.y + y) + _seed;
+                float scaledX = (position.x + x) + _seed;
+                float scaledY = (position.y + y) + _seed;
 
                 float noiseValue = noise.GetNoise(scaledX, scaledY);
 
@@ -80,9 +77,9 @@ public class NoiseGenerator
             {
                 for (int z = 0; z < _chunksSize.z; z++)
                 {
-                    float scaledX = (position.x * _chunksSize.x + x) + _seed;
-                    float scaledY = (position.y * _chunksSize.y + y) + _seed;
-                    float scaledZ = (position.z * _chunksSize.z + z) + _seed;
+                    float scaledX = (position.x + x) + _seed;
+                    float scaledY = (position.y + y) + _seed;
+                    float scaledZ = (position.z + z) + _seed;
 
                     float noiseValue = noise.GetNoise(scaledX, scaledY, scaledZ);
 
